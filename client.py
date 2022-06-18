@@ -30,9 +30,17 @@ except socket.error as e:
 while True:
     try:
         data = clientSocket.recv(2048).decode('utf-8')
-        print(data.split('/'))
-        play = input("Choose your move: ")
-        clientSocket.send(play.encode('utf-8'))
+        data = data.split('/')
+        print(data[0:3])
+        print(data[3:6])
+        print(data[6:9])
+        while True:
+            play = int(input("Choose your move (1-9): "))
+            if data[play-1] == '-':
+                clientSocket.send(str(play).encode('utf-8'))
+                break
+            else:
+                print("Invalid Move")
     except socket.error as e:
         print(e)
 
