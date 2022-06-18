@@ -40,7 +40,7 @@ def checkWin(arr):
 
     return False
 
-def game_thread():
+def tictactoe():
     boardstring = "-/-/-/-/-/-/-/-/-"
     board = list(boardstring)
     player_x = clients[0]
@@ -58,16 +58,22 @@ def game_thread():
         print("X: " + str(play_x))
         board[2*play_x - 2] = 'X'
         if (checkWin(board)):
-            print("X Ganhou")
+            result = "X Won"
+            print(result)
+            for client in clients:
+                client.send(result.encode('utf-8'))
             break
         boardstring =  ''.join(str(item) for item in board)
         player_o.send(boardstring.encode('utf-8'))
         play_o = int(player_o.recv(2048).decode('utf-8'))
-        print("O :" + str(play_o))
+        print("O:" + str(play_o))
         board[2*play_o - 2] = 'O'
         boardstring =  ''.join(str(item) for item in board)
         if (checkWin(board)):
-            print("O Ganhou")
+            result = "O Won"
+            print(result)
+            for client in clients:
+                client.send(result.encode('utf-8'))
             break
     
 
@@ -79,6 +85,6 @@ while len(clients) != 2:
     except socket.error as e:
         print("\nError Establishing connection: %s" % e)
 
-game_thread()
+tictactoe()
 
 connectionSocket.close()
