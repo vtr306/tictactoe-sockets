@@ -30,7 +30,7 @@ except socket.error as e:
 while True:
     try:
         data = clientSocket.recv(2048).decode('utf-8')
-        if (data == "O Won" or data == "X Won"):
+        if (data == "O Won" or data == "X Won" or data == "We Tied"):
             print(data)
             break
         data = data.split('/')

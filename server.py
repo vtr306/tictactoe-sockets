@@ -40,6 +40,12 @@ def checkWin(arr):
 
     return False
 
+def checkTie(arr):
+    if(arr[0] != '-' and arr[2] != '-' and arr[4] != '-' and arr[6] != '-' and arr[8] != '-' and arr[10] != '-' and arr[12] != '-' and arr[14] != '-' and arr[16] != '-'):
+        return True
+    
+    return False
+
 def tictactoe():
     boardstring = "-/-/-/-/-/-/-/-/-"
     board = list(boardstring)
@@ -63,14 +69,26 @@ def tictactoe():
             for client in clients:
                 client.send(result.encode('utf-8'))
             break
+        if (checkTie(board)):
+            result = "We Tied"
+            print(result)
+            for client in clients:
+                client.send(result.encode('utf-8'))
+            break
         boardstring =  ''.join(str(item) for item in board)
         player_o.send(boardstring.encode('utf-8'))
         play_o = int(player_o.recv(2048).decode('utf-8'))
-        print("O:" + str(play_o))
+        print("O: " + str(play_o))
         board[2*play_o - 2] = 'O'
         boardstring =  ''.join(str(item) for item in board)
         if (checkWin(board)):
             result = "O Won"
+            print(result)
+            for client in clients:
+                client.send(result.encode('utf-8'))
+            break
+        if (checkTie(board)):
+            result = "We Tied"
             print(result)
             for client in clients:
                 client.send(result.encode('utf-8'))
