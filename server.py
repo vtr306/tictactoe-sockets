@@ -63,19 +63,21 @@ def tictactoe():
         play_x = int(player_x.recv(2048).decode('utf-8'))
         print("X: " + str(play_x))
         board[2*play_x - 2] = 'X'
+        boardstring =  ''.join(str(item) for item in board)
         if (checkWin(board)):
             result = "X Won"
             print(result)
             for client in clients:
                 client.send(result.encode('utf-8'))
+                client.send(boardstring.encode('utf-8'))
             break
         if (checkTie(board)):
             result = "We Tied"
             print(result)
             for client in clients:
                 client.send(result.encode('utf-8'))
+                client.send(boardstring.encode('utf-8'))
             break
-        boardstring =  ''.join(str(item) for item in board)
         player_o.send(boardstring.encode('utf-8'))
         play_o = int(player_o.recv(2048).decode('utf-8'))
         print("O: " + str(play_o))
@@ -86,12 +88,14 @@ def tictactoe():
             print(result)
             for client in clients:
                 client.send(result.encode('utf-8'))
+                client.send(boardstring.encode('utf-8'))
             break
         if (checkTie(board)):
             result = "We Tied"
             print(result)
             for client in clients:
                 client.send(result.encode('utf-8'))
+                client.send(boardstring.encode('utf-8'))
             break
     
 

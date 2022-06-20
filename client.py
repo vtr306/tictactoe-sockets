@@ -32,6 +32,11 @@ while True:
         data = clientSocket.recv(2048).decode('utf-8')
         if (data == "O Won" or data == "X Won" or data == "We Tied"):
             print(data)
+            datafinish = clientSocket.recv(2048).decode('utf-8')
+            datafinish = datafinish.split('/')
+            print(datafinish[0:3])
+            print(datafinish[3:6])
+            print(datafinish[6:9])
             break
         data = data.split('/')
         print(data[0:3])
